@@ -24,6 +24,7 @@ SET(CMAKE_MODULE_PATH
 INCLUDE(Define_CMakeDefaults)
 INCLUDE(Define_PlatformDefaults)
 INCLUDE(Define_CompilerFlags)
+INCLUDE(Define_Nanogui)
 
 # Project command is here, to set some values correctly.
 PROJECT(${CMAKE_PROJECT_NAME})
@@ -54,6 +55,9 @@ ADD_SUBDIRECTORY( src )
 MACRO_PRINT_SOURCES()
 
 INCLUDE_DIRECTORIES(
+  ext/nanogui/include
+  ext/json/src
+  ${NANOGUI_EXTRA_INCS}
 )
 
 ADD_EXECUTABLE(
@@ -63,4 +67,11 @@ ADD_EXECUTABLE(
 
 TARGET_LINK_LIBRARIES(
     ${EXECUTABLE_NAME}
+    nanogui
+    ${NANOGUI_EXTRA_LIBS}
 )
+
+#copy data into build folder
+ADD_CUSTOM_COMMAND(TARGET ${EXECUTABLE_NAME} PRE_BUILD
+                   COMMAND ${CMAKE_COMMAND} -E copy_directory
+                 ${CMAKE_SOURCE_DIR}/data $<TARGET_FILE_DIR:${EXECUTABLE_NAME}>/data)

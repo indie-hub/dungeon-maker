@@ -31,6 +31,7 @@ GLTexture::Handle_t GLTexture::Load(const std::string& FileName)
     throw std::invalid_argument("Could not load texture data from " + FileName);
   }
   glGenTextures(1, &Id);
+  glBindTexture(GL_TEXTURE_2D, Id);
   GLint InternalFormat;
   GLint Format;
   switch(NChannels)
@@ -41,6 +42,7 @@ GLTexture::Handle_t GLTexture::Load(const std::string& FileName)
     case 4: InternalFormat = GL_RGBA8; Format = GL_RGBA; break;
     default: InternalFormat = 0; Format = 0; break;
   }
+
   glTexImage2D(GL_TEXTURE_2D, 0, InternalFormat, Width, Height, 0, Format,
                 GL_UNSIGNED_BYTE, TextureData.get());
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);

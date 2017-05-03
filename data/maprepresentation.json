@@ -1,31 +1,807 @@
 {
   "version": "0.1.0",
-  "tileset": "data/tileset_cave_1.png",
-  "mapconfig": "",
-  "tilesize": {
-    "width": 40,
-    "height": 40
+  "tileset": {
+    "file": "data/tileset_cave_1.png",
+    "tilesize": {
+      "width": 64,
+      "height": 64
+    },
+    "size": {
+      "width": 1024,
+      "height": 1024
+    },
+    "tiles": {
+      "size": {
+        "width": 64,
+        "height": 64
+      },
+      "tiles": {
+        "floor": [
+          {
+            "size": {
+              "width": 64,
+              "height": 32
+            },
+            "coord": {
+              "x": 0,
+              "y": 992
+            }
+          },
+          {
+            "size": {
+              "width": 64,
+              "height": 32
+            },
+            "coord": {
+              "x": 64,
+              "y": 992
+            }
+          },
+          {
+            "size": {
+              "width": 64,
+              "height": 32
+            },
+            "coord": {
+              "x": 128,
+              "y": 992
+            }
+          },
+          {
+            "size": {
+              "width": 64,
+              "height": 32
+            },
+            "coord": {
+              "x": 192,
+              "y": 992
+            }
+          },
+          {
+            "size": {
+              "width": 64,
+              "height": 32
+            },
+            "coord": {
+              "x": 256,
+              "y": 992
+            }
+          },
+          {
+            "size": {
+              "width": 64,
+              "height": 32
+            },
+            "coord": {
+              "x": 320,
+              "y": 992
+            }
+          },
+          {
+            "size": {
+              "width": 64,
+              "height": 32
+            },
+            "coord": {
+              "x": 384,
+              "y": 992
+            }
+          },
+          {
+            "size": {
+              "width": 64,
+              "height": 32
+            },
+            "coord": {
+              "x": 448,
+              "y": 992
+            }
+          },
+          {
+            "size": {
+              "width": 64,
+              "height": 32
+            },
+            "coord": {
+              "x": 512,
+              "y": 992
+            }
+          },
+          {
+            "size": {
+              "width": 64,
+              "height": 32
+            },
+            "coord": {
+              "x": 576,
+              "y": 992
+            }
+          },
+          {
+            "size": {
+              "width": 64,
+              "height": 32
+            },
+            "coord": {
+              "x": 640,
+              "y": 992
+            }
+          },
+          {
+            "size": {
+              "width": 64,
+              "height": 32
+            },
+            "coord": {
+              "x": 704,
+              "y": 992
+            }
+          },
+          {
+            "size": {
+              "width": 64,
+              "height": 32
+            },
+            "coord": {
+              "x": 768,
+              "y": 992
+            }
+          },
+          {
+            "size": {
+              "width": 64,
+              "height": 32
+            },
+            "coord": {
+              "x": 832,
+              "y": 992
+            }
+          },
+          {
+            "size": {
+              "width": 64,
+              "height": 32
+            },
+            "coord": {
+              "x": 896,
+              "y": 992
+            }
+          },
+          {
+            "size": {
+              "width": 64,
+              "height": 32
+            },
+            "coord": {
+              "x": 960,
+              "y": 992
+            }
+          },
+          {
+            "size": {
+              "width": 64,
+              "height": 32
+            },
+            "coord": {
+              "x": 0,
+              "y": 928
+            }
+          },
+          {
+            "size": {
+              "width": 64,
+              "height": 32
+            },
+            "coord": {
+              "x": 64,
+              "y": 928
+            }
+          },
+          {
+            "size": {
+              "width": 64,
+              "height": 32
+            },
+            "coord": {
+              "x": 128,
+              "y": 928
+            }
+          },
+          {
+            "size": {
+              "width": 64,
+              "height": 32
+            },
+            "coord": {
+              "x": 192,
+              "y": 928
+            }
+          },
+          {
+            "size": {
+              "width": 64,
+              "height": 32
+            },
+            "coord": {
+              "x": 256,
+              "y": 928
+            }
+          },
+          {
+            "size": {
+              "width": 64,
+              "height": 32
+            },
+            "coord": {
+              "x": 320,
+              "y": 928
+            }
+          },
+          {
+            "size": {
+              "width": 64,
+              "height": 32
+            },
+            "coord": {
+              "x": 384,
+              "y": 928
+            }
+          },
+          {
+            "size": {
+              "width": 64,
+              "height": 32
+            },
+            "coord": {
+              "x": 448,
+              "y": 928
+            }
+          }
+        ],
+        "wall": [
+          {
+            "orientation": 248,
+            "back-faced": false,
+            "size": {
+              "width": 64,
+              "height": 96
+            },
+            "coord": {
+              "x": 0,
+              "y": 768
+            }
+          },
+          {
+            "orientation": 252,
+            "back-faced": false,
+            "size": {
+              "width": 64,
+              "height": 96
+            },
+            "coord": {
+              "x": 0,
+              "y": 768
+            }
+          },
+          {
+            "orientation": 249,
+            "back-faced": false,
+            "size": {
+              "width": 64,
+              "height": 96
+            },
+            "coord": {
+              "x": 0,
+              "y": 768
+            }
+          },
+          {
+            "orientation": 253,
+            "back-faced": false,
+            "size": {
+              "width": 64,
+              "height": 96
+            },
+            "coord": {
+              "x": 0,
+              "y": 768
+            }
+          },
+          {
+            "orientation": 224,
+            "back-faced": false,
+            "size": {
+              "width": 64,
+              "height": 96
+            },
+            "coord": {
+              "x": 0,
+              "y": 768
+            }
+          },
+
+          {
+            "orientation": 214,
+            "back-faced": false,
+            "size": {
+              "width": 64,
+              "height": 96
+            },
+            "coord": {
+              "x": 64,
+              "y": 768
+            }
+          },
+          {
+            "orientation": 246,
+            "back-faced": false,
+            "size": {
+              "width": 64,
+              "height": 96
+            },
+            "coord": {
+              "x": 64,
+              "y": 768
+            }
+          },
+          {
+            "orientation": 215,
+            "back-faced": false,
+            "size": {
+              "width": 64,
+              "height": 96
+            },
+            "coord": {
+              "x": 64,
+              "y": 768
+            }
+          },
+          {
+            "orientation": 247,
+            "back-faced": false,
+            "size": {
+              "width": 64,
+              "height": 96
+            },
+            "coord": {
+              "x": 64,
+              "y": 768
+            }
+          },
+
+          {
+            "orientation": 31,
+            "back-faced": true,
+            "size": {
+              "width": 64,
+              "height": 96
+            },
+            "coord": {
+              "x": 128,
+              "y": 768
+            }
+          },
+          {
+            "orientation": 159,
+            "back-faced": true,
+            "size": {
+              "width": 64,
+              "height": 96
+            },
+            "coord": {
+              "x": 128,
+              "y": 768
+            }
+          },
+          {
+            "orientation": 63,
+            "back-faced": true,
+            "size": {
+              "width": 64,
+              "height": 96
+            },
+            "coord": {
+              "x": 128,
+              "y": 768
+            }
+          },
+          {
+            "orientation": 191,
+            "back-faced": true,
+            "size": {
+              "width": 64,
+              "height": 96
+            },
+            "coord": {
+              "x": 128,
+              "y": 768
+            }
+          },
+          {
+            "orientation": 7,
+            "back-faced": true,
+            "size": {
+              "width": 64,
+              "height": 96
+            },
+            "coord": {
+              "x": 128,
+              "y": 768
+            }
+          },
+
+          {
+            "orientation": 107,
+            "back-faced": true,
+            "size": {
+              "width": 64,
+              "height": 96
+            },
+            "coord": {
+              "x": 192,
+              "y": 768
+            }
+          },
+          {
+            "orientation": 239,
+            "back-faced": true,
+            "size": {
+              "width": 64,
+              "height": 96
+            },
+            "coord": {
+              "x": 192,
+              "y": 768
+            }
+          },
+          {
+            "orientation": 235,
+            "back-faced": true,
+            "size": {
+              "width": 64,
+              "height": 96
+            },
+            "coord": {
+              "x": 192,
+              "y": 768
+            }
+          },
+          {
+            "orientation": 111,
+            "back-faced": true,
+            "size": {
+              "width": 64,
+              "height": 96
+            },
+            "coord": {
+              "x": 192,
+              "y": 768
+            }
+          },
+
+          {
+            "orientation": 254,
+            "back-faced": false,
+            "size": {
+              "width": 64,
+              "height": 96
+            },
+            "coord": {
+              "x": 512,
+              "y": 768
+            }
+          },
+
+
+          {
+            "orientation": 223,
+            "back-faced": true,
+            "size": {
+              "width": 64,
+              "height": 96
+            },
+            "coord": {
+              "x": 576,
+              "y": 768
+            }
+          },
+
+          {
+            "orientation": 127,
+            "back-faced": true,
+            "size": {
+              "width": 64,
+              "height": 96
+            },
+            "coord": {
+              "x": 640,
+              "y": 768
+            }
+          },
+
+          {
+            "orientation": 251,
+            "back-faced": true,
+            "size": {
+              "width": 64,
+              "height": 96
+            },
+            "coord": {
+              "x": 704,
+              "y": 768
+            }
+          },
+
+          {
+            "orientation": 208,
+            "back-faced": false,
+            "size": {
+              "width": 64,
+              "height": 96
+            },
+            "coord": {
+              "x": 0,
+              "y": 640
+            }
+          },
+          {
+            "orientation": 244,
+            "back-faced": false,
+            "size": {
+              "width": 64,
+              "height": 96
+            },
+            "coord": {
+              "x": 0,
+              "y": 640
+            }
+          },
+          {
+            "orientation": 212,
+            "back-faced": false,
+            "size": {
+              "width": 64,
+              "height": 96
+            },
+            "coord": {
+              "x": 0,
+              "y": 640
+            }
+          },
+          {
+            "orientation": 240,
+            "back-faced": false,
+            "size": {
+              "width": 64,
+              "height": 96
+            },
+            "coord": {
+              "x": 0,
+              "y": 640
+            }
+          },
+
+          {
+            "orientation": 22,
+            "back-faced": false,
+            "size": {
+              "width": 64,
+              "height": 96
+            },
+            "coord": {
+              "x": 64,
+              "y": 640
+            }
+          },
+          {
+            "orientation": 151,
+            "back-faced": false,
+            "size": {
+              "width": 64,
+              "height": 96
+            },
+            "coord": {
+              "x": 64,
+              "y": 640
+            }
+          },
+          {
+            "orientation": 150,
+            "back-faced": false,
+            "size": {
+              "width": 64,
+              "height": 96
+            },
+            "coord": {
+              "x": 64,
+              "y": 640
+            }
+          },
+          {
+            "orientation": 23,
+            "back-faced": false,
+            "size": {
+              "width": 64,
+              "height": 96
+            },
+            "coord": {
+              "x": 64,
+              "y": 640
+            }
+          },
+
+          {
+            "orientation": 11,
+            "back-faced": true,
+            "size": {
+              "width": 64,
+              "height": 96
+            },
+            "coord": {
+              "x": 128,
+              "y": 640
+            }
+          },
+          {
+            "orientation": 15,
+            "back-faced": true,
+            "size": {
+              "width": 64,
+              "height": 96
+            },
+            "coord": {
+              "x": 128,
+              "y": 640
+            }
+          },
+          {
+            "orientation": 47,
+            "back-faced": true,
+            "size": {
+              "width": 64,
+              "height": 96
+            },
+            "coord": {
+              "x": 128,
+              "y": 640
+            }
+          },
+          {
+            "orientation": 43,
+            "back-faced": true,
+            "size": {
+              "width": 64,
+              "height": 96
+            },
+            "coord": {
+              "x": 128,
+              "y": 640
+            }
+          },
+
+          {
+            "orientation": 104,
+            "back-faced": false,
+            "size": {
+              "width": 64,
+              "height": 96
+            },
+            "coord": {
+              "x": 192,
+              "y": 640
+            }
+          },
+          {
+            "orientation": 232,
+            "back-faced": false,
+            "size": {
+              "width": 64,
+              "height": 96
+            },
+            "coord": {
+              "x": 192,
+              "y": 640
+            }
+          },
+          {
+            "orientation": 233,
+            "back-faced": false,
+            "size": {
+              "width": 64,
+              "height": 96
+            },
+            "coord": {
+              "x": 192,
+              "y": 640
+            }
+          },
+          {
+            "orientation": 105,
+            "back-faced": false,
+            "size": {
+              "width": 64,
+              "height": 96
+            },
+            "coord": {
+              "x": 192,
+              "y": 640
+            }
+          }
+        ]
+      }
+    }
   },
-  "shader": {
-    "id": "tile_rendering",
-    "vertex_shader": [
-      "#version 330",
-      "uniform mat4 modelViewProj;",
-      "in vec3 position;",
-      "in vec3 color;",
-      "out vec3 color_v2f;",
-      "void main() {",
-      "    color_v2f = color;",
-      "    gl_Position = modelViewProj * vec4(position, 1.0);",
-      "}"
+  "map": {
+    "layers": [
+      {
+        "type": "floor",
+        "covers_all": true,
+        "has_direction": false,
+        "shader": "tiles"
+      },
+      {
+        "type": "wall",
+        "covers_all": false,
+        "has_direction": true,
+        "shader": "tiles"
+      }
     ],
-    "fragment_shader": [
-      "#version 330",
-      "in vec3 color_v2f;",
-      "out vec4 color;",
-      "void main() {",
-      "    color = vec4(color_v2f, 1.0);",
-      "}"
-    ]
+    "tilesize": {
+      "width": 64,
+      "height": 32
+    }
+  },
+  "shaders": {
+    "tiles": {
+      "id": "tile_rendering",
+      "vertex_shader": [
+        "#version 330",
+        "uniform mat4 modelViewProj;",
+        "in vec3 position;",
+        "in vec3 color;",
+        "in vec2 texCoords;",
+        "out vec3 color_v2f;",
+        "out vec2 texCoords_v2f;",
+        "void main() {",
+        "    color_v2f = color;",
+        "    texCoords_v2f = texCoords;",
+        "    gl_Position = modelViewProj * vec4(position, 1.0);",
+        "}"
+      ],
+      "fragment_shader": [
+        "#version 330",
+        "in vec3 color_v2f;",
+        "in vec2 texCoords_v2f;",
+        "uniform sampler2D tiles;",
+        "out vec4 color;",
+        "void main() {",
+        "   vec4 tex = texture(tiles, texCoords_v2f);",
+        "   tex.a += (1.0f - color_v2f.r);",
+        "   color = vec4(color_v2f, 1.0) * tex;",
+        "}"
+      ]
+    },
+    "grid": {
+      "id": "grid_rendering",
+      "vertex_shader": [
+        "#version 330",
+        "uniform mat4 modelViewProj;",
+        "in vec3 position;",
+        "in vec3 color;",
+        "out vec3 color_v2f;",
+        "void main() {",
+        "    color_v2f = color;",
+        "    gl_Position = modelViewProj * vec4(position, 1.0);",
+        "}"
+      ],
+      "fragment_shader": [
+        "#version 330",
+        "in vec3 color_v2f;",
+        "out vec4 color;",
+        "void main() {",
+        "    color = vec4(color_v2f, 1.0);",
+        "}"
+      ]
+    }
   }
 }

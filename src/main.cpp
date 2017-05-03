@@ -1,17 +1,30 @@
- #include "map.h"
+#include "mainwindow.h"
 
- int main(int argc, char** argv)
- {
-   Map DungeonMap(60, 40, 0.45);
+#define ERROR_CODE -1
 
-   if(!DungeonMap.GenerateMap())
-   {
-     std::cerr << "There was an error generating map" << std::endl;
-   }
+int main(int argc, char** argv)
+{
+  try
+  {
+    nanogui::init();
+    {
+      nanogui::ref<MainWindow> App = new MainWindow(1024, 768, "Dungeon Maker");
 
-   DungeonMap.MakeCaverns();
+      App->drawAll();
+      App->setVisible(true);
+      App->SetupMap(60, 40, 0.40f, "data/maprepresentation.json"),
 
-   std::cout << std::endl << DungeonMap << std::endl;
+      nanogui::mainloop();
+    }
 
-   return 0;
- }
+    nanogui::shutdown();
+  }
+  catch(const std::runtime_error &e)
+  {
+    std::string ErrorMsg = std::string("Fatal error: " + std::string(e.what()));
+    std::cerr << ErrorMsg << std::endl;
+    return ERROR_CODE;
+  }
+
+  return 0;
+}
