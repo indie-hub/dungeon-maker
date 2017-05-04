@@ -13,7 +13,7 @@ Almost all configurations for displaying the maps are on the file ```maprepresen
 
 ## Acknowledgments
 I would like to thanks:
-  * Wenzel Jakob: for creating [nanogui](https://github.com/wjakob)
+  * Wenzel Jakob: for creating [nanogui](https://github.com/wjakob/nanogui)
   * Niels Lohmann: for creating [JSON for Modern C++](https://github.com/nlohmann/json)
   * [Clint Bellanger](https://opengameart.org/content/cave-tileset): for the tile set
 
