@@ -11,6 +11,7 @@
 X(Floor) \
 X(Wall) \
 X(Water) \
+X(Prop) \
 X(nTiles) \
 
 typedef std::pair<int,int> Window;
@@ -90,11 +91,18 @@ private:
   bool GenerateMap();
   void MakeCaverns();
   void RemoveStray();
+  void RemoveStraySame(const ETiles& Type);
+  void PlaceWater();
+  void PlaceProps();
 
   ETiles GetTileFor(int x, int y) const;
   ETiles CheckStray(int x, int y) const;
+  ETiles CheckStraySame(int x, int y, const ETiles& Type) const;
   int GetAdjacentWallCount(int x, int y, const Window& SearchWindow) const;
+  int GetAdjacentSameCount(int x, int y, const Window& SearchWindow) const;
   bool IsWall(int x, int y) const;
+  bool IsFloor(int x, int y) const;
+  bool IsTheSame(int x, int y, const ETiles& TileTypeOther) const;
   bool OutOfBounds(int x, int y) const;
 
   bool MapSound() const;

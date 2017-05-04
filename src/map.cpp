@@ -5,7 +5,10 @@
 #include <functional>
 
 
-//TODO: swap loops to reduce cache misses
+/**
+  TODO:
+    * merge RemoveStray and RemoveStray (plus corresponding methods)
+*/
 
 std::string Map::TileTypeAsStringCache[] = {
  #define X(a) #a,
@@ -14,7 +17,7 @@ std::string Map::TileTypeAsStringCache[] = {
 };
 
 bool Map::TileNamesLowered(false);
-std::set<int> Map::StrayCodes = {209, 219, 217, 139, 126, 155, 110, 118, 211, 203, 62, 124};
+std::set<int> Map::StrayCodes = {209, 219, 217, 139, 126, 155, 110, 118, 211, 203, 62, 124, 216, 153, 27};
 
 
 std::string Map::TileTypeAsString(const ETiles& Tile)
@@ -67,9 +70,11 @@ bool Map::Generate(int Steps)
         RemoveStray();
         ++Attempt;
       }
-
-      Dirty = true;
     }
+    PlaceWater();
+    RemoveStraySame(ETiles::Water);
+    PlaceProps();
+    Dirty = true;
   }
   return MapIsSound;
 }
@@ -85,6 +90,9 @@ int Map::GetNeighboursCode(int x, int y) const
   int iX = StartX;
   int iY = StartY;
 
+  const Map& TheMap(*this);
+  const ETiles TileType = TheMap(x, y);
+
   int Code = 0;
   for(; iX <= EndX; ++iX)
   {
@@ -92,7 +100,7 @@ int Map::GetNeighboursCode(int x, int y) const
     {
       if(!(x == iX && y == iY))
       {
-        if(IsWall(iX, iY))
+        if(IsTheSame(iX, iY, TileType))
         {
           Code += 1;
         }
@@ -200,6 +208,117 @@ void Map::RemoveStray()
   }
 }
 
+void Map::RemoveStraySame(const ETiles& Type)
+{
+  Map& TheMap = (*this);
+  for(int y = 0, x = 0; y < Height; ++y)
+  {
+    for(x = 0; x < Width; ++x)
+    {
+      TheMap(x,y) = CheckStraySame(x, y, Type);
+    }
+  }
+}
+
+
+void Map::PlaceWater()
+{
+  using TileCoord_t = std::pair<int, int>;
+  using TileList_t = std::vector<TileCoord_t>;
+
+  Map& TheMap = (*this);
+  std::mt19937::result_type Seed =
+        std::chrono::high_resolution_clock::now().time_since_epoch().count();
+
+  auto RandomX = std::bind(std::uniform_int_distribution<int>(0, Width - 1),
+                              std::mt19937(Seed));
+  auto RandomY = std::bind(std::uniform_int_distribution<int>(0, Height - 1),
+                              std::mt19937(RandomX()));
+
+
+  const int nTilesMax = Width * Height * 0.05f;
+
+  int Attempt(0);
+  int TileCount(0);
+  TileList_t TilesToAdd;
+  while(TilesToAdd.empty() && Attempt < 10) //Try to find a spot for water
+  {
+    const int X = RandomX();
+    const int Y = RandomY();
+    if(ETiles::Floor == TheMap(X, Y))
+    {
+      TheMap(X, Y) = ETiles::Water;
+      TilesToAdd.emplace_back(X, Y);
+      ++TileCount;
+    }
+  }
+
+  TileList_t TileList;
+  const Window SearchWindow(1, 1);
+  while(!TilesToAdd.empty() && TileCount < nTilesMax)
+  {
+    TileList.insert(TileList.end(), TilesToAdd.begin(), TilesToAdd.end());
+    TilesToAdd.clear();
+    while(!TileList.empty() && TileCount < nTilesMax)
+    {
+      TileCoord_t TileCoord = TileList.back();
+      TileList.pop_back();
+
+      const int x = TileCoord.first;
+      const int y = TileCoord.second;
+
+      const int StartX = x - SearchWindow.first;
+      const int StartY = y - SearchWindow.second;
+
+      const int EndX = x + SearchWindow.first;
+      const int EndY = y + SearchWindow.second;
+
+      int iX = StartX;
+      int iY = StartY;
+
+      for(; iX <= EndX; ++iX)
+      {
+        for(iY = StartY; iY <= EndY; ++iY)
+        {
+          if(!(x == iX && y == iY))
+          {
+            if(IsFloor(iX, iY))
+            {
+              TheMap(iX, iY) = ETiles::Water;
+              TilesToAdd.emplace_back(iX, iY);
+              ++TileCount;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+void Map::PlaceProps()
+{
+  Map& TheMap = (*this);
+  const int nProps = Width * Height * 0.10f;
+
+  std::mt19937::result_type Seed =
+        std::chrono::high_resolution_clock::now().time_since_epoch().count();
+
+  auto RandomX = std::bind(std::uniform_int_distribution<int>(0, Width - 1),
+                              std::mt19937(Seed));
+  auto RandomY = std::bind(std::uniform_int_distribution<int>(0, Height - 1),
+                              std::mt19937(RandomX()));
+
+  for(int i = 0; i < nProps; ++i)
+  {
+    const int X = RandomX();
+    const int Y = RandomY();
+    if(ETiles::Floor == TheMap(X, Y))
+    {
+      TheMap(X, Y) = ETiles::Prop;
+    }
+  }
+}
+
 std::ostream& operator<< (std::ostream& OutputStream, const Map& MapToPrint)
 {
   if(!MapToPrint.Valid())
@@ -244,13 +363,40 @@ Map::ETiles Map::GetTileFor(int x, int y) const
 
 Map::ETiles Map::CheckStray(int x, int y) const
 {
-  int NumAdjWalls = GetAdjacentWallCount(x, y, Window(1, 1));
+
 
   if(IsWall(x, y))
   {
+    int NumAdjWalls = GetAdjacentWallCount(x, y, Window(1, 1));
     if(NumAdjWalls <= 3)
     {
       if (NumAdjWalls < 3)
+      {
+        return Map::ETiles::Floor;
+      }
+      else
+      {
+        const int Code = GetNeighboursCode(x, y);
+        if(224 == Code || 41 == Code || 7 == Code || 148 == Code)
+        {
+          return Map::ETiles::Floor;
+        }
+      }
+    }
+  }
+
+  return (*this)(x, y);
+}
+
+Map::ETiles Map::CheckStraySame(int x, int y, const ETiles& Type) const
+{
+
+  if(Type == (*this)(x, y))
+  {
+    int NumAdjSame = GetAdjacentSameCount(x, y, Window(1, 1));
+    if(NumAdjSame <= 3)
+    {
+      if (NumAdjSame < 3)
       {
         return Map::ETiles::Floor;
       }
@@ -299,6 +445,37 @@ int Map::GetAdjacentWallCount(int x, int y, const Window& SearchWindow) const
   return WallCounter;
 }
 
+int Map::GetAdjacentSameCount(int x, int y, const Window& SearchWindow) const
+{
+  const int StartX = x - SearchWindow.first;
+  const int StartY = y - SearchWindow.second;
+
+  const int EndX = x + SearchWindow.first;
+  const int EndY = y + SearchWindow.second;
+
+  int iX = StartX;
+  int iY = StartY;
+
+  int SameCounter = 0;
+  const ETiles TileType = (*this)(x, y);
+
+  for(; iX <= EndX; ++iX)
+  {
+    for(iY = StartY; iY <= EndY; ++iY)
+    {
+      if(!(x == iX && y == iY))
+      {
+        if(IsTheSame(iX, iY, TileType))
+        {
+          ++SameCounter;
+        }
+      }
+    }
+  }
+
+  return SameCounter;
+}
+
 bool Map::IsWall(int x, int y) const
 {
   if(OutOfBounds(x, y))
@@ -306,6 +483,36 @@ bool Map::IsWall(int x, int y) const
     return true;
   }
   if(ETiles::Wall == (*this)(x,y))
+  {
+    return true;
+  }
+  return false;
+}
+
+bool Map::IsFloor(int x, int y) const
+{
+  if(OutOfBounds(x, y))
+  {
+    return false;
+  }
+  if(ETiles::Floor == (*this)(x,y))
+  {
+    return true;
+  }
+  return false;
+}
+
+bool Map::IsTheSame(int x, int y, const ETiles& TileTypeOther) const
+{
+  if(OutOfBounds(x, y))
+  {
+    if(ETiles::Wall == TileTypeOther)
+    {
+      return true;
+    }
+    return false;
+  }
+  if(TileTypeOther == (*this)(x, y))
   {
     return true;
   }

@@ -170,6 +170,39 @@ void MainWindow::drawContents()
   }
 }
 
+bool MainWindow::mouseMotionEvent(const Eigen::Vector2i &p, const Eigen::Vector2i &rel, int button, int modifiers)
+{
+  if(MouseButtonPressed)
+  {
+    ViewportCenter += -rel;
+    ComputeCamera();
+  }
+  return true;
+}
+
+bool MainWindow::mouseButtonEvent(const Eigen::Vector2i &p, int button, bool down, int modifiers)
+{
+
+  if(!Screen::mouseButtonEvent(p, button, down, modifiers))
+  {
+    MouseButtonPressed = ((button == GLFW_MOUSE_BUTTON_1) && down);
+    if(!MouseButtonPressed)
+    {
+      if(down)
+      {
+        //TODO: Account for zoom!
+        Eigen::Vector2i Point = p + ViewportCenter;
+        Point -= Eigen::Vector2i(WindowSize.x(), WindowSize.y()) / 2;
+
+        MapRepresentation::TileInfo_t TileInfo = TheMapRepresentation->GetInfoForTile(Point.x(), Point.y());
+        std::cout << "Tile: " << TileInfo.first << ", Code: " << TileInfo.second << std::endl;
+      }
+    }
+  }
+  return true;
+}
+
+
 void MainWindow::SetupMap(int Width, int Height, float WallPercentage,
             const std::string& RepresentationConfigFile)
 {
@@ -210,7 +243,7 @@ void MainWindow::ComputeCamera()
   const int HalfWidth = WindowSize.x() / 2;
   const int HalfHeight = WindowSize.y() / 2;
 
-  CameraMatrix = nanogui::ortho(-HalfWidth * Zoom, HalfWidth * Zoom,
-                                HalfHeight * Zoom, -HalfHeight * Zoom,
+  CameraMatrix = nanogui::ortho((-HalfWidth + ViewportCenter.x()) * Zoom, (HalfWidth + ViewportCenter.x()) * Zoom,
+                                (HalfHeight + ViewportCenter.y()) * Zoom, (-HalfHeight + ViewportCenter.y()) * Zoom,
                                 1.0f, -1.0f);
 }

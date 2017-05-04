@@ -25,6 +25,7 @@ private:
 
 public:
   using MapRepresentation_ptr = std::unique_ptr<MapRepresentation>;
+  using TileInfo_t = std::pair<std::string, int>;
 
   MapRepresentation(const std::string &ConfigurationFileName, Map::Map_ptr &Map)
     : ConfigFile(ConfigurationFileName)
@@ -45,6 +46,8 @@ public:
   void DrawUsingCamera(const Eigen::Matrix4f &CameraMatrix);
 
   void SetDisplayGrid(bool Value) { DisplayGrid = Value; }
+
+  TileInfo_t GetInfoForTile(int X, int Y) const;
 
 private:
   MapRepresentation() = delete;

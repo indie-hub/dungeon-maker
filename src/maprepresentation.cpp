@@ -100,6 +100,38 @@ void MapRepresentation::DrawUsingCamera(const Eigen::Matrix4f &CameraMatrix)
 
 }
 
+MapRepresentation::TileInfo_t MapRepresentation::GetInfoForTile(int X, int Y) const
+{
+  const Map& MapRef(*TheMap);
+
+  const int MapWidth = TheMap->GetWidth();
+  const int MapHeight = TheMap->GetHeight();
+
+  const float TilesWidth = Configuration["map"]["tilesize"]["width"].get<float>();
+  const float TilesHeight = Configuration["map"]["tilesize"]["height"].get<float>();
+
+  const float TilesWidthHalfSize = TilesWidth * 0.5f;
+  const float TilesHeightHalfSize = TilesHeight * 0.5f;
+
+  const float MapWidthInPixesl = MapWidth * TilesWidth;
+  const float MapHeightInPixels = MapHeight * TilesHeight;
+  const float HalfMapHeightInPixels = MapHeightInPixels * 0.5f;
+
+  // int MapX = (X / TilesWidthHalfSize + Y / TilesHeightHalfSize) / 2;
+  // int MapY = (Y / TilesHeightHalfSize - (X / TilesWidthHalfSize)) / 2;
+
+  int MapY = (((Y + HalfMapHeightInPixels) / TilesHeightHalfSize) - (X / TilesWidthHalfSize)) / 2;
+  int MapX = (X / TilesWidthHalfSize) + MapY;
+
+
+  if(MapX < 0 || MapX >= MapWidth || MapY < 0 || MapY >= MapHeight)
+  {
+    return std::make_pair("null", -1);
+  }
+
+  return std::make_pair(Map::TileTypeAsString(MapRef(MapX, MapY)), MapRef.GetNeighboursCode(MapX, MapY));
+}
+
 void MapRepresentation::LoadResources()
 {
   TileTexture = GLTexture(Configuration["tileset"]["file"].get<std::string>());
@@ -265,11 +297,16 @@ void MapRepresentation::ComputeMapGeometry()
                                 const int Code = MapRef.GetNeighboursCode(x, y);
                                 if(!NodeListMapPerLayer[LayerType].count(Code))
                                 {
-                                  if(Code != 255) std::cout << Code << ", ";
+                                  if(Code != 255 && LayerType == "water") std::cout << Code << ", ";
                                   return -1;
                                 }
 
-                                return NodeListMapPerLayer[LayerType][Code][0];
+                                std::mt19937::result_type Seed =
+                                    std::chrono::high_resolution_clock::now().time_since_epoch().count();
+                                auto RandomNumber = std::bind(std::uniform_int_distribution<int>(0, NodeListMapPerLayer[LayerType][Code].size() - 1),
+                                                            std::mt19937(Seed));
+
+                                return NodeListMapPerLayer[LayerType][Code][RandomNumber()];
                               };
 
 
@@ -298,9 +335,10 @@ void MapRepresentation::ComputeMapGeometry()
           std::chrono::high_resolution_clock::now().time_since_epoch().count();
       auto RandomNumber = std::bind(std::uniform_int_distribution<int>(0, AvailableTiles - 1),
                                   std::mt19937(Seed));
-      nanogui::MatrixXf TexCoords(2, MapWidth * MapHeight * 4);
-      VertexCounter = 0;
 
+      nanogui::MatrixXf TexCoords(2, MapWidth * MapHeight * 4);
+
+      VertexCounter = 0;
       auto SetArrays = [&](const float& UVu, const float& UVv, const float& UVu1, const float& UVv1, const Eigen::Vector3f& Color)
       {
         Positions.col(VertexCounter).x() = Positions.col(VertexCounter + 1).x();
@@ -353,7 +391,13 @@ void MapRepresentation::ComputeMapGeometry()
                 continue;
               }
               const std::string LayerTypeOther = LayerConfOther["type"].get<std::string>();
-              if(LayerType == Map::TileTypeAsString(MapRef(x, y)))
+              if(LayerTypeOther != Map::TileTypeAsString(MapRef(x, y)))
+              {
+                continue;
+              }
+
+              const bool HasDirectionOther = LayerConfOther["has_direction"].get<bool>();
+              if(!HasDirectionOther)
               {
                 continue;
               }
@@ -408,11 +452,6 @@ void MapRepresentation::ComputeMapGeometry()
             Positions.col(VertexCounter - 1).y() = Positions.col(VertexCounter - 1).y() - Diff;
           }
         }
-
-        if(LayerType != "floor")
-        {
-          std::cout << std::endl;
-        }
       }
 
       #if 0 //Just for testing
@@ -427,9 +466,6 @@ void MapRepresentation::ComputeMapGeometry()
       Layer.uploadAttrib("position", Positions);
       Layer.uploadAttrib("texCoords", TexCoords);
       Layer.uploadAttrib("color", Colors);
-
-        // std::cout << Positions << std::endl;
-        // std::cout << TexCoords << std::endl;
     }
   }
 
