@@ -9,7 +9,7 @@ I got the idea for it once I saw the fantastic cave tiles created by [Clint Bell
 ![Screenshot](https://github.com/indie-at-github/dungeon-maker/raw/master/resources/ScreenShot2.png "Screenshot")
 
 ## JSON Configuration
-Almost all configurations for generating/displaying the maps are on the maprepresentation.json file.
+Almost all configurations for displaying the maps are on the file ```maprepresentation.json```
 
 ## Acknowledgments
 I would like to thanks:
