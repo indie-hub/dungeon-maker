@@ -18,7 +18,7 @@ I would like to thanks:
   * [Clint Bellanger](https://opengameart.org/content/cave-tileset): for the tile set
 
 ## Compilation
-Both nanogui and json are submodules. There should be no problem compiling using cmake.
+Both nanogui and json are submodules. There should be no problem compiling using the included cmake file.
 
 ## License
 
